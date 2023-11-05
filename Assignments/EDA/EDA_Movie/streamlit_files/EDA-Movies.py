@@ -14,8 +14,9 @@ import streamlit as st
 from io import StringIO
 
 
-uploaded_file = st.file_uploader("Choose a file")
+uploaded_file = st.file_uploader("Choose a fileee")
 if uploaded_file is not None:
+    '''
     # To read file as bytes:
     bytes_data = uploaded_file.getvalue()
     st.write(bytes_data)
@@ -27,257 +28,261 @@ if uploaded_file is not None:
     # To read file as string:
     string_data = stringio.read()
     st.write(string_data)
+    '''
 
     # Can be used wherever a "file-like" object is accepted:
     df = pd.read_csv(uploaded_file)
-    st.write(df)
+    #st.write(df)
 
 
-# In[2]:
+    # In[2]:
 
 
-# read movies data
-# df = pd.read_csv('./dataset/Movie.csv')
-df.head()
+    print('read movies data')
+    print('this is python print function')
+    # df = pd.read_csv('./dataset/Movie.csv')
+    df.head()
 
 
-# In[3]:
+    # In[3]:
 
 
-df.describe()
+    # describe
+    df.describe()
 
 
-# In[4]:
+    # In[4]:
 
 
-df.dtypes
+    # type
+    df.dtypes
 
 
-# In[5]:
+    # In[5]:
 
 
-# summary of the data: column names, total no.of non-null values, data types, memory usage
-df.info()
+    # summary of the data: column names, total no.of non-null values, data types, memory usage
+    df.info()
 
 
-# In[6]:
+    # In[6]:
 
 
-df.shape
+    df.shape
 
 
-# ## Duplicates
+    # ## Duplicates
 
-# In[7]:
+    # In[7]:
 
 
-# count of duplicate rows
-df[df.duplicated()].shape
+    # count of duplicate rows
+    df[df.duplicated()].shape
 
 
-# ##### no duplicates rows found hence, no need to use drop duplicate function
+    # ##### no duplicates rows found hence, no need to use drop duplicate function
 
-# ## Outlier detection
+    # ## Outlier detection
 
-# ### Bar graph
+    # ### Bar graph
 
-# In[8]:
+    # In[8]:
 
 
-df['userId'].value_counts().plot.bar()
+    df['userId'].value_counts().plot.bar()
 
 
-# In[9]:
+    # In[9]:
 
 
-df['movie'].value_counts().plot.bar()
+    df['movie'].value_counts().plot.bar()
 
 
-# In[10]:
+    # In[10]:
 
 
-df['rating'].value_counts().plot.bar()
+    df['rating'].value_counts().plot.bar()
 
 
-# ### Boxplot
+    # ### Boxplot
 
-# In[11]:
+    # In[11]:
 
 
-# import maxplotlib library
-import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
+    # import maxplotlib library
+    import matplotlib.pyplot as plt
+    #get_ipython().run_line_magic('matplotlib', 'inline')
 
-data = df
-data_box = data.dropna()
-data_box1 = data_box.userId
-box1 = plt.boxplot(data_box1)
+    data = df
+    data_box = data.dropna()
+    data_box1 = data_box.userId
+    box1 = plt.boxplot(data_box1)
 
 
-# In[12]:
+    # In[12]:
 
 
-data_box2 = data_box.rating
-box2 = plt.boxplot(data_box2)
+    data_box2 = data_box.rating
+    box2 = plt.boxplot(data_box2)
 
 
-# In[13]:
+    # In[13]:
 
 
-# To get the whiskers# To get the whiskers
-[item.get_ydata()[1] for item in box1['whiskers']]
+    # To get the whiskers# To get the whiskers
+    [item.get_ydata()[1] for item in box1['whiskers']]
 
 
-# In[14]:
+    # In[14]:
 
 
-[item.get_ydata()[1] for item in box2['whiskers']]
+    [item.get_ydata()[1] for item in box2['whiskers']]
 
 
-# ## Missing values and Imputation
+    # ## Missing values and Imputation
 
-# In[15]:
+    # In[15]:
 
 
-import seaborn as sns
+    import seaborn as sns
 
-cols = data.columns
-colors = ['#000099', '#ffff00'] # specify the colours - yellow is missing. blue is not missing.
-sns.heatmap(data[cols].isnull(), cmap=sns.color_palette(colors))
+    cols = data.columns
+    colors = ['#000099', '#ffff00'] # specify the colours - yellow is missing. blue is not missing.
+    sns.heatmap(data[cols].isnull(), cmap=sns.color_palette(colors))
 
 
-# In[16]:
+    # In[16]:
 
 
-data[data.isnull().any(axis=1)].sum()
+    data[data.isnull().any(axis=1)].sum()
 
 
-# #### We have 0 null values so we do not need Mean Imputation
+    # #### We have 0 null values so we do not need Mean Imputation
 
-# ## Scatter plot and Correlation
+    # ## Scatter plot and Correlation
 
-# In[17]:
+    # In[17]:
 
 
-plt.scatter(df['userId'], df['rating'])
-plt.show()
+    plt.scatter(df['userId'], df['rating'])
+    plt.show()
 
 
-# In[18]:
+    # In[18]:
 
 
-# Create the default pairplot
-sns.pairplot(data)
+    # Create the default pairplot
+    sns.pairplot(data)
 
 
-# In[21]:
+    # In[21]:
 
 
-sns.scatterplot(data, x='userId', y='rating', hue='movie')
+    sns.scatterplot(data, x='userId', y='rating', hue='movie')
 
 
-# ## Transformation - Dummy variabe 
+    # ## Transformation - Dummy variabe 
 
-# In[22]:
+    # In[22]:
 
 
-# generating dummy values for 'movie' column
-data_cleaned = pd.get_dummies(data, columns=['movie'])
-data_cleaned
+    # generating dummy values for 'movie' column
+    data_cleaned = pd.get_dummies(data, columns=['movie'])
+    data_cleaned
 
 
-# In[23]:
+    # In[23]:
 
 
-# correlation
-data_cleaned.corr()
+    # correlation
+    data_cleaned.corr()
 
 
-# # Transformations
+    # # Transformations
 
-# ## Normalization
+    # ## Normalization
 
-# In[24]:
+    # In[24]:
 
 
-data_cleaned.info()
+    data_cleaned.info()
 
 
-# In[25]:
+    # In[25]:
 
 
-data_cleaned.values
+    data_cleaned.values
 
 
-# ##### standarizing all movie columns
+    # ##### standarizing all movie columns
 
-# In[26]:
+    # In[26]:
 
 
-# standarize the data
-from sklearn.preprocessing import StandardScaler
+    # standarize the data
+    from sklearn.preprocessing import StandardScaler
 
-scaler = StandardScaler()
-scaled_data = scaler.fit_transform(data_cleaned.iloc[:,1:])
-scaled_data
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(data_cleaned.iloc[:,1:])
+    scaled_data
 
 
-# In[27]:
+    # In[27]:
 
 
-from numpy import set_printoptions
+    from numpy import set_printoptions
 
-set_printoptions(precision=2)
-scaled_data
+    set_printoptions(precision=2)
+    scaled_data
 
-'''
-# # EDA with libraries
+    '''
+    # # EDA with libraries
 
-# In[28]:
+    # In[28]:
 
 
-# check if a Library is installed or not
-get_ipython().system('pip show ydata_profiling')
+    # check if a Library is installed or not
+    get_ipython().system('pip show ydata_profiling')
 
 
-# In[29]:
+    # In[29]:
 
 
-from ydata_profiling import ProfileReport
+    from ydata_profiling import ProfileReport
 
-report = ProfileReport(df, title="Movie EDA Report")
-report.to_file(output_file='eda-movies-report.html')
+    report = ProfileReport(df, title="Movie EDA Report")
+    report.to_file(output_file='eda-movies-report.html')
 
 
-# In[30]:
+    # In[30]:
 
 
-report
+    report
 
 
-# In[36]:
+    # In[36]:
 
 
-# check if a Library is installed or not
-get_ipython().system('pip show sweetviz')
+    # check if a Library is installed or not
+    get_ipython().system('pip show sweetviz')
 
 
-# In[37]:
+    # In[37]:
 
 
-import sweetviz as sv
+    import sweetviz as sv
 
-sweet_report = sv.analyze(df)
-sweet_report.show_html('eda-movies-sweetviz-report.html')
+    sweet_report = sv.analyze(df)
+    sweet_report.show_html('eda-movies-sweetviz-report.html')
 
 
-# In[38]:
+    # In[38]:
 
 
-# to display the sweetviz report in the notebook
-sweet_report.show_notebook(  w='100%', 
-                             h=530, 
-                             scale=None,
-                             layout='widescreen',
-                             filepath='./eda-movies-sweetviz-report.html' )
-'''
+    # to display the sweetviz report in the notebook
+    sweet_report.show_notebook(  w='100%', 
+                                h=530, 
+                                scale=None,
+                                layout='widescreen',
+                                filepath='./eda-movies-sweetviz-report.html' )
+    '''

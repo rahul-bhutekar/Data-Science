@@ -25,7 +25,7 @@ st.divider()
 
 
 st.markdown('#### :red[:hash: read file using *read_csv* function: ] :orange[pd.read_csv(), head()] ')
-df = pd.read_csv('https://github.com/rahul-bhutekar/Data-Science/blob/754a829be7c433f8476c690516cd99a5379389f6/Assignments/Streamlit/dataset/Movie.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Assignments/Streamlit/dataset/Movie.csv', index_col=0)
 st.table(df.head())
 
 

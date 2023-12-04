@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import codecs
 
@@ -125,7 +124,6 @@ if add_radio == 'Yes':
     code = '''
     import streamlit as st
     import pandas as pd
-    import numpy as np
     import matplotlib.pyplot as plt
     import codecs
 
@@ -138,7 +136,7 @@ if add_radio == 'Yes':
 
     with st.sidebar:
         with st.header('# EDA for Movie dataset'):
-            st.markdown('# EDA for Movie dataset')
+            st.markdown('# :mag: EDA for Movie dataset')
             
         with st.sidebar.header('Show Code'):
             add_radio = st.radio(
@@ -174,17 +172,17 @@ if add_radio == 'Yes':
     st.write(df[df.duplicated()].shape)
 
 
-    import plotly.express as px
 
     st.header('Outlier detection :smiley:', divider='rainbow')
-    st.header('_Bar graph_')
 
+    import plotly.express as px
 
-    st.markdown('#### :red[:movie_camera: Movies] ')
+    st.header('_Bar graph - Movies :movie_camera:_')
     fig_movie = px.bar(df['movie'])
     st.plotly_chart(fig_movie, use_container_width=True)
 
-    st.markdown('#### :red[:star: Rating] ')
+
+    st.header('_Bar graph - Rating :star:_')
     fig_rating, ax = plt.subplots()
     ax.hist(df['rating'], bins=20)
     st.pyplot(fig_rating)
@@ -193,16 +191,17 @@ if add_radio == 'Yes':
     data = df
     data_box = data.dropna()
 
-    st.markdown('#### :red[ Box Plot - Movie:movie_camera:] ')
+    st.header('_Box Plot - Movie:movie_camera:_')
     fig_box_movie = px.box(df, y="movie", notched=True, points="all")
     st.plotly_chart(fig_box_movie, use_container_width=True)
 
-    st.markdown('#### :red[Box Plot - Rating:star:] ')
+
+    st.header('_Box Plot - Rating:star:_')
     fig_box_rating = px.box(df, y="rating", notched=True)
     st.plotly_chart(fig_box_rating)
 
 
-    st.markdown('#### :red[Heatmap :fire:] ')
+    st.header('_Heatmap1 :fire:_')
     import seaborn as sns
     cols = data.columns
     colors = ['#000099', '#ffff00']
@@ -210,12 +209,23 @@ if add_radio == 'Yes':
     sns.heatmap(data[cols].isnull(), cmap=sns.color_palette(colors), ax=ax)
     st.write(fig)
 
-    st.markdown('#### :red[Scatter Plot :star2:] ')
+
+    st.header('_Heatmap2 :fire:_')
+    fig_heatmap = px.imshow(df)
+    st.plotly_chart(fig_heatmap)
+
+
+    st.header('_Scatter Plot :star2:_')
     fig_scatterPlot = px.scatter(df, x='userId', y='rating', color='movie')
     st.plotly_chart(fig_scatterPlot, use_container_width=True)
 
+    # generating dummy values for 'movie' column
+    st.header('_Correlation :white_circle:_')
+    data_cleaned = pd.get_dummies(data, columns=['movie'])
+    st.write(data_cleaned.corr())
 
-    st.markdown('## EDA with libraries 	:v:')
+
+    st.header('_EDA with libraries 	:v:_')
     st.divider()
 
 

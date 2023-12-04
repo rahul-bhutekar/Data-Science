@@ -25,7 +25,7 @@ st.divider()
 
 
 st.markdown('#### :red[:hash: read file using *read_csv* function: ] :orange[pd.read_csv(), head()] ')
-df = pd.read_csv('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Assignments/Streamlit/dataset/Movie.csv', index_col=0)
+df = pd.read_csv('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Assignments/Streamlit/dataset/Movie.csv')
 st.table(df.head())
 
 
@@ -95,6 +95,7 @@ st.header('_Scatter Plot :star2:_')
 fig_scatterPlot = px.scatter(df, x='userId', y='rating', color='movie')
 st.plotly_chart(fig_scatterPlot, use_container_width=True)
 
+
 # generating dummy values for 'movie' column
 st.header('_Correlation :white_circle:_')
 data_cleaned = pd.get_dummies(data, columns=['movie'])
@@ -149,7 +150,7 @@ if add_radio == 'Yes':
 
 
     st.markdown('#### :red[:hash: read file using *read_csv* function: ] :orange[pd.read_csv(), head()] ')
-    df = pd.read_csv('../dataset/Movie.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Assignments/Streamlit/dataset/Movie.csv')
     st.table(df.head())
 
 
@@ -219,6 +220,7 @@ if add_radio == 'Yes':
     fig_scatterPlot = px.scatter(df, x='userId', y='rating', color='movie')
     st.plotly_chart(fig_scatterPlot, use_container_width=True)
 
+
     # generating dummy values for 'movie' column
     st.header('_Correlation :white_circle:_')
     data_cleaned = pd.get_dummies(data, columns=['movie'])
@@ -246,4 +248,3 @@ if add_radio == 'Yes':
     '''
     st.markdown('# Code')
     st.code(code, language='python')
-

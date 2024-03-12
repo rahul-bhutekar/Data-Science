@@ -360,7 +360,7 @@ fig
 
 import time
 _TEXT = '''
-Please click [here](https://example.com/source_code) to get the source code for this Streamlit application.
+Please click [here](https://github.com/rahul-bhutekar/Data-Science/blob/af809d12fe8d1074ce241bd6d48ab75efdd56a49/Assignments/Streamlit/EDA_IPL/eda_ipl_app.py) to get the source code for this Streamlit application.
 '''
 
 def github_code():
@@ -368,6 +368,6 @@ def github_code():
         yield word + " "
         time.sleep(0.02)
 
-if st.button("Source code"):
+if st.button("get code"):
     st.write_stream(github_code)
 

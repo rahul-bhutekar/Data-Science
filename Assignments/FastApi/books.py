@@ -61,3 +61,7 @@ def update_book_partial(book: BookUpdate):
     validateBookName(book_name)
     books_db[book_name].update(book.model_dump(exclude_unset=True))
     return {'message': f'Successfully updated the book: {book_name}'}
+
+
+# YT link: https://youtube.com/playlist?list=PL2L4c5jChmcsDrSaaH_5pKdCezAQ01o1a&feature=shared
+# Github link: https://github.com/liannewriting/YouTube-videos-public/tree/055eb22b25860c5840c873a3c6786951c6d05462/fastapi-python-tutorial-intro

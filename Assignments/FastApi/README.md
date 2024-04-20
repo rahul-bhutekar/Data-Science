@@ -28,7 +28,7 @@ To get started with FastAPI, you'll need a few things:
      ```
    * Install uvicorn using pip:
      ```bash
-     pip install "uvicron[standard]"
+     pip install "uvicorn[standard]"
      ```
 
 3. **Create a Python File:** Create a Python file (e.g., `main.py`) and add the following code:

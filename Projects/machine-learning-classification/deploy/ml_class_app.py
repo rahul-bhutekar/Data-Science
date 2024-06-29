@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import urllib.request
 
 
 # Define the URL of the pickle model

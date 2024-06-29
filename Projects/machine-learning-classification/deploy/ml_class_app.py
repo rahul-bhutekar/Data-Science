@@ -13,14 +13,36 @@ model_filename = 'classy_cc_transaction_fraud_detection.pkl'
 urllib.request.urlretrieve(model_url, model_filename)
 
 
+# Function to create a Bootstrap-like alert box
+def bootstrap_alert(alert_type, message):
+    alert_html = f"""
+    <div style="padding: 15px; margin-bottom: 15px; border: 6px solid transparent; border-radius: 4px;
+                background-color: {alert_type['bg_color']}; border-color: {alert_type['border_color']}; color: {alert_type['text_color']};">
+        {message}
+    </div>
+    """
+    st.markdown(alert_html, unsafe_allow_html=True)
+
+# Define different alert types
+alert_types = {
+    "success": {"bg_color": "#d4edda", "border_color": "#c3e6cb", "text_color": "#155724"},
+    "info": {"bg_color": "#d1ecf1", "border_color": "#bee5eb", "text_color": "#0c5460"},
+    "warning": {"bg_color": "#fff3cd", "border_color": "#ffeeba", "text_color": "#f20808fa"},
+    "danger": {"bg_color": "#f8d7da", "border_color": "#f5c6cb", "text_color": "#721c24"}
+}
+
 # Load the model from the file
 with open(model_filename, 'rb') as model_file:
     ml_model = pickle.load(model_file)
+    
 
 # Define the Streamlit app
 st.title("Credit Card Transaction Fraud Detection")
 
-st.write("Enter transaction details to predict fraud:")
+st.subheader('Enter transaction details to predict fraud:', divider='rainbow')
+
+bootstrap_alert(alert_types["info"], "Please encode categorical data (e.g., category) and ensure numeric fields (e.g., amount) have valid values.")
+
 
 # Collect user input
 transaction_data = {}
@@ -39,4 +61,7 @@ input_df = pd.DataFrame([transaction_data])
 # Make a prediction
 if st.button("Predict"):
     prediction = ml_model.predict(input_df)
-    st.write(f"Prediction: {'Fraud' if prediction[0] == 1 else 'Not Fraud'}")
+    if prediction[0] == 1:
+        bootstrap_alert(alert_types["warning"], "The transaction is likely to be fraudulent based on the provided details.")
+    else:
+        bootstrap_alert(alert_types["info"], "The transaction does not appear to be fraudulent based on the provided details.")

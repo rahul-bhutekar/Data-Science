@@ -2,12 +2,23 @@ import streamlit as st
 import pickle
 import pandas as pd
 
+
+# Define the URL of the pickle model
+model_url = 'https://github.com/rahul-bhutekar/Data-Science/raw/72b8eb0032d54f581957f4ff8bd4d8c21cf0d150/Projects/machine-learning-classification/deploy/classy_cc_transaction_fraud_detection.pkl'
+
+# Download the model file
+model_filename = 'classy_cc_transaction_fraud_detection.pkl'
+urllib.request.urlretrieve(model_url, model_filename)
+
+
 # Load the model from the file
-with open('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Projects/machine-learning-classification/deploy/ml_class_app.py', 'rb') as model_file:
+with open(model_filename, 'rb') as model_file:
     ml_model = pickle.load(model_file)
 
 # Define the Streamlit app
 st.title("Credit Card Transaction Fraud Detection")
+
+st.write("Enter transaction details to predict fraud:")
 
 # Collect user input
 transaction_data = {}

@@ -1,3 +1,4 @@
 Projects/machine-learning-classification/datasets/credit-card-transactions-fraud-detection/fraudTrain.csv filter=lfs diff=lfs merge=lfs -text
 Projects/machine-learning-classification/datasets/credit-card-transactions-fraud-detection/fraudTest.csv filter=lfs diff=lfs merge=lfs -text
 Projects/machine-learning-classification/X_resampled.csv filter=lfs diff=lfs merge=lfs -text
+Projects/machine-learning-classification/.ipynb_checkpoints/X_resampled-checkpoint.csv filter=lfs diff=lfs merge=lfs -text

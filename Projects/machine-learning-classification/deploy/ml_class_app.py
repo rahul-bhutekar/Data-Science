@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # Load the model from the file
-with open('https://github.com/rahul-bhutekar/Data-Science/blob/72b8eb0032d54f581957f4ff8bd4d8c21cf0d150/Projects/machine-learning-classification/deploy/classy_cc_transaction_fraud_detection.pkl', 'rb') as model_file:
+with open('https://raw.githubusercontent.com/rahul-bhutekar/Data-Science/main/Projects/machine-learning-classification/deploy/ml_class_app.py', 'rb') as model_file:
     ml_model = pickle.load(model_file)
 
 # Define the Streamlit app

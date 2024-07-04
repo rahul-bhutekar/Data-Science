@@ -4,6 +4,9 @@ import pandas as pd
 import urllib.request
 import xgboost as xgb
 
+import requests
+from io import BytesIO
+
 
 # Define the URL of the pickle model
 model_url = 'https://github.com/rahul-bhutekar/Data-Science/raw/72b8eb0032d54f581957f4ff8bd4d8c21cf0d150/Projects/machine-learning-classification/deploy/classy_cc_transaction_fraud_detection.pkl'
@@ -11,6 +14,19 @@ model_url = 'https://github.com/rahul-bhutekar/Data-Science/raw/72b8eb0032d54f58
 # Download the model file
 model_filename = 'classy_cc_transaction_fraud_detection.pkl'
 urllib.request.urlretrieve(model_url, model_filename)
+
+# load model from Google Drive START
+# Replace 'YOUR_FILE_ID_HERE' with your actual file ID
+url = 'https://drive.google.com/uc?id=177wzO1u1aNsFGtqf7jLIRffmZbBGznBe'
+
+def load_model_from_gdrive(url):
+    response = requests.get(url)
+    model_file = BytesIO(response.content)
+    model =  pickle.load(model_file)
+    return model
+
+model = load_model_from_gdrive(url)
+# load model from Google Drive END
 
 
 # Function to create a Bootstrap-like alert box
@@ -112,7 +128,8 @@ input_df = pd.DataFrame([transaction_data])
 
 # Make a prediction
 if st.button("Predict"):
-    prediction = ml_model.predict(input_df)
+    # prediction = ml_model.predict(input_df)
+    prediction = model.predict(input_df)
     if prediction[0] == 1:
         bootstrap_alert(alert_types["warning"], "The transaction is likely to be fraudulent based on the provided details.")
     else:

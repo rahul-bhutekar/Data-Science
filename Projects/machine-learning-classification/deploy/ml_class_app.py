@@ -8,12 +8,19 @@ import requests
 from io import BytesIO
 
 
-# Define the URL of the pickle model
-model_url = 'https://github.com/rahul-bhutekar/Data-Science/raw/72b8eb0032d54f581957f4ff8bd4d8c21cf0d150/Projects/machine-learning-classification/deploy/classy_cc_transaction_fraud_detection.pkl'
+# LOAD MODEL FROM GITHUB start
+# # Define the URL of the pickle model
+# model_url = 'https://github.com/rahul-bhutekar/Data-Science/raw/72b8eb0032d54f581957f4ff8bd4d8c21cf0d150/Projects/machine-learning-classification/deploy/classy_cc_transaction_fraud_detection.pkl'
 
-# Download the model file
-model_filename = 'classy_cc_transaction_fraud_detection.pkl'
-urllib.request.urlretrieve(model_url, model_filename)
+# # Download the model file
+# model_filename = 'classy_cc_transaction_fraud_detection.pkl'
+# urllib.request.urlretrieve(model_url, model_filename)
+
+# # Load the model from the file
+# with open(model_filename, 'rb') as model_file:
+#     ml_model = pickle.load(model_file)
+# LOAD MODEL FROM GITHUB end
+    
 
 # load model from Google Drive START
 # Replace 'YOUR_FILE_ID_HERE' with your actual file ID
@@ -47,10 +54,6 @@ alert_types = {
     "danger": {"bg_color": "#f8d7da", "border_color": "#f5c6cb", "text_color": "#721c24"}
 }
 
-# Load the model from the file
-with open(model_filename, 'rb') as model_file:
-    ml_model = pickle.load(model_file)
-    
 
 # Define the Streamlit app
 st.title("Credit Card Transaction Fraud Detection")

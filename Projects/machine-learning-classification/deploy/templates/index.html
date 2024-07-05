@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Transaction Fraud Detection</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style> 
+        body {
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Credit Card Transaction Fraud Detection</h1>
+
+        {% if prediction_text %}
+            {{ prediction_text|safe }}
+        {% endif %}
+
+        <div class="mb-4">
+            <h4>Sample Inputs</h4>
+            <p>For fraudulent transactions, try these values:</p>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('11,1004.95,148,-1,16114,42.005098,-80.485252,0.0176586')">Fraud Sample 1</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('8,875.38,148,-1,16114,40.917701,-80.014586,0.018423746')">Fraud Sample 2</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('4,283.65,148,-1,16114,41.122993,-79.556792,0.017508754')">Fraud Sample 3</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('2,15.49,765,-1,83869,47.978198,-117.265082,0.004664179')">Fraud Sample 4</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('11,821.89,148,-1,16114,40.7932,-80.433995,0.021653543')">Fraud Sample 5</button>
+            <p>For non-fraudulent transactions, try these values:</p>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('7,19.89,148,-1,16114,42.297246,-79.425116,0.003798155')">Non-Fraud Sample 1</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('13,9.03,692,-1,41254,38.580916,-81.725325,0.004444444')">Non-Fraud Sample 2</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('2,55.01,725,-1,78214,29.688173,-98.245038,0.005990783')">Non-Fraud Sample 3</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('9,34.42,427,-1,56152,45.166439,-94.743248,0.001573564')">Non-Fraud Sample 4</button>
+            <button class="btn btn-secondary btn-sm mb-1" onclick="fillForm('12,141.23,222,-1,31630,31.617466,-82.313895,0.00623053')">Non-Fraud Sample 5</button>
+        </div>
+
+        <div class="alert alert-primary" role="alert">
+            Please encode categorical data (e.g., category) and ensure numeric fields (e.g., amt) have valid values.
+        </div>
+        <form id="fraudDetectionForm" action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="number" class="form-control" name="category" id="category" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="amt">Amount</label>
+                <input type="number" class="form-control" name="amt" id="amt" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="number" class="form-control" name="city" id="city" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="number" class="form-control" name="state" id="state" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="zip">Zip Code</label>
+                <input type="number" class="form-control" name="zip" id="zip" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="merchant_mean_encoded">Merchant Name (encoded)</label>
+                <input type="number" class="form-control" name="merchant_mean_encoded" id="merchant_mean_encoded" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="merch_lat">Merchant Latitude</label>
+                <input type="number" class="form-control" name="merch_lat" id="merch_lat" step="any" required>
+            </div>
+            <div class="form-group">
+                <label for="merch_long">Merchant Longitude</label>
+                <input type="number" class="form-control" name="merch_long" id="merch_long" step="any" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+    
+    <footer class="mt-5 text-center">
+        <p>Copyright &copy;
+            <script>document.write(new Date().getFullYear())</script>, Rahul Bhutekar
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function fillForm(sample) {
+            const values = sample.split(',');
+            document.getElementById('category').value = values[0];
+            document.getElementById('amt').value = values[1];
+            document.getElementById('city').value = values[2];
+            document.getElementById('state').value = values[3];
+            document.getElementById('zip').value = values[4];
+            document.getElementById('merchant_mean_encoded').value = values[5];
+            document.getElementById('merch_lat').value = values[6];
+            document.getElementById('merch_long').value = values[7];
+        }
+    </script>
+
+</body>
+
+</html>
+
+

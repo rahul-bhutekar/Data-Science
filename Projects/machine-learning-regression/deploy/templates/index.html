@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        .alert {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Student Performance</h1>
+        <h2 class="text-center">This is a machine learning model to predict the performance (grade) of the students</h2>
+        <form method="post" action="/predict" class="mt-4">
+
+            <!-- Display Prediction Result -->
+            {% if prediction_text %}
+            <div class="alert alert-info text-center mt-4">
+                {{ prediction_text }}
+            </div>
+            {% endif %}
+
+            <!-- School -->
+            <div class="form-group row">
+                <label for="school" class="col-sm-2 col-form-label">School</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="school" name="school">
+                        <option value="" selected disabled>Select School</option>
+                        <option value="0">GP</option>
+                        <option value="1">MS</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Age -->
+            <div class="form-group row">
+                <label for="age" class="col-sm-2 col-form-label">Age</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="age" name="age">
+                        <option value="" selected disabled>Select Age</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Family Size -->
+            <div class="form-group row">
+                <label for="famsize" class="col-sm-2 col-form-label">Family Size</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="famsize" name="famsize">
+                        <option value="" selected disabled>Select Family Size</option>
+                        <option value="0">GT3</option>
+                        <option value="1">LE3</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Pstatus -->
+            <!-- <div class="form-group row">
+            <label for="Pstatus" class="col-sm-2 col-form-label">Parent's Cohabitation Status</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="Pstatus" name="Pstatus">
+                    <option value="" selected disabled>Select Pstatus</option>
+                    <option value="0">A</option>
+                    <option value="1">T</option>
+                </select>
+            </div>
+        </div> -->
+
+            <!-- Medu -->
+            <div class="form-group row">
+                <label for="Medu" class="col-sm-2 col-form-label">Mother's Education Level</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Medu" name="Medu">
+                        <option value="" selected disabled>Select Mother's Education Level</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Fedu -->
+            <div class="form-group row">
+                <label for="Fedu" class="col-sm-2 col-form-label">Father's Education Level</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Fedu" name="Fedu">
+                        <option value="" selected disabled>Select Father's Education Level</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Mother's Job -->
+            <div class="form-group row">
+                <label for="Mjob" class="col-sm-2 col-form-label">Mother's Job</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Mjob" name="Mjob">
+                        <option value="" selected disabled>Select Mother's Job</option>
+                        <option value="0">At home</option>
+                        <option value="1">Health</option>
+                        <option value="2">Other</option>
+                        <option value="3">Services</option>
+                        <option value="4">Teacher</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Father's Job -->
+            <div class="form-group row">
+                <label for="Fjob" class="col-sm-2 col-form-label">Father's Job</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Fjob" name="Fjob">
+                        <option value="" selected disabled>Select Father's Job</option>
+                        <option value="0">At home</option>
+                        <option value="1">Health</option>
+                        <option value="2">Other</option>
+                        <option value="3">Services</option>
+                        <option value="4">Teacher</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Reason -->
+            <div class="form-group row">
+                <label for="reason" class="col-sm-2 col-form-label">Reason for choosing the school</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="reason" name="reason">
+                        <option value="" selected disabled>Select Reason</option>
+                        <option value="0">course</option>
+                        <option value="1">home</option>
+                        <option value="2">reputation</option>
+                        <option value="3">other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Guardian -->
+            <div class="form-group row">
+                <label for="guardian" class="col-sm-2 col-form-label">The student's guardian</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="guardian" name="guardian">
+                        <option value="" selected disabled>Select Guardian</option>
+                        <option value="0">mother</option>
+                        <option value="1">father</option>
+                        <option value="2">other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Travel Time -->
+            <div class="form-group row">
+                <label for="traveltime" class="col-sm-2 col-form-label">Time taken to travel from home to school</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="traveltime" name="traveltime">
+                        <option value="" selected disabled>Select Travel Time</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Study Time -->
+            <div class="form-group row">
+                <label for="studytime" class="col-sm-2 col-form-label">Weekly study time</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="studytime" name="studytime">
+                        <option value="" selected disabled>Select Study Time</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Failures -->
+            <div class="form-group row">
+                <label for="failures" class="col-sm-2 col-form-label">Number of past class failures</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="failures" name="failures">
+                        <option value="" selected disabled>Select Failures</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label for="activities" class="col-sm-2 col-form-label">Participation in extracurricular
+                    activities</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="activities" name="activities">
+                        <option value="" selected disabled>Select Activities</option>
+                        <option value="0">no</option>
+                        <option value="1">yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Aspiration to pursue higher education -->
+            <div class="form-group row">
+                <label for="higher" class="col-sm-2 col-form-label">Aspiration to pursue higher education</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="higher" name="higher">
+                        <option value="" selected disabled>Select Higher</option>
+                        <option value="0">no</option>
+                        <option value="1">yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Internet access at home -->
+            <div class="form-group row">
+                <label for="internet" class="col-sm-2 col-form-label">Internet access at home</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="internet" name="internet">
+                        <option value="" selected disabled>Select Internet</option>
+                        <option value="0">no</option>
+                        <option value="1">yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Quality of family relationships -->
+            <div class="form-group row">
+                <label for="famrel" class="col-sm-2 col-form-label">Quality of family relationships</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="famrel" name="famrel">
+                        <option value="" selected disabled>Select Famrel</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Amount of free time after school -->
+            <div class="form-group row">
+                <label for="freetime" class="col-sm-2 col-form-label">Amount of free time after school</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="freetime" name="freetime">
+                        <option value="" selected disabled>Select Freetime</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Frequency of going out with friends -->
+            <div class="form-group row">
+                <label for="goout" class="col-sm-2 col-form-label">Frequency of going out with friends</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="goout" name="goout">
+                        <option value="" selected disabled>Select Goout</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Workday alcohol consumption -->
+            <div class="form-group row">
+                <label for="Dalc" class="col-sm-2 col-form-label">Workday alcohol consumption</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Dalc" name="Dalc">
+                        <option value="" selected disabled>Select Dalc</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Weekend alcohol consumption -->
+            <div class="form-group row">
+                <label for="Walc" class="col-sm-2 col-form-label">Weekend alcohol consumption</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Walc" name="Walc">
+                        <option value="" selected disabled>Select Walc</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Current health status -->
+            <div class="form-group row">
+                <label for="health" class="col-sm-2 col-form-label">Current health status</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="health" name="health">
+                        <option value="" selected disabled>Select Health</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Number of school absences -->
+            <div class="form-group row">
+                <label for="absences" class="col-sm-2 col-form-label">Number of school absences</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="absences" name="absences">
+                        <option value="" selected disabled>Select Absences</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- First period grade -->
+            <div class="form-group row">
+                <label for="G1" class="col-sm-2 col-form-label">First period grade</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="G1" name="G1">
+                        <option value="" selected disabled>Select G1</option>
+                        <option value="0">0</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Second period grade -->
+            <div class="form-group row">
+                <label for="G2" class="col-sm-2 col-form-label">Second period grade</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="G2" name="G2">
+                        <option value="" selected disabled>Select G2</option>
+                        <option value="0">0</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Predict</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

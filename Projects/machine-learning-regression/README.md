@@ -17,9 +17,9 @@ The goal of this project is to build a regression model that can accurately pred
 - **deploy**: Contains files related to the deployment of the model.
   - **templates**: HTML templates for the Flask web application.
   - **app.py**: Flask application to serve the model.
-  - **model_lr.pkl**: Pickle file for the trained linear regression model.
-  - **scaler_X.pkl**: Pickle file for the feature scaler.
-  - **scaler_Y.pkl**: Pickle file for the target variable scaler.
+  - **log_reg_model.pkl**: Pickle file for the trained linear regression model.
+  - **log_reg_scaler.pkl**: Pickle file for the feature scaler.
+  - **log_reg_scaler_y.pkl**: Pickle file for the target variable scaler.
   - **requirements.txt**: List of required Python packages for the project.
 - **ml-reg-models-hyperparameter.ipynb**: A Jupyter Notebook used to train machine learning models with hyperparameters.
 - **ml-reg-models.ipynb**: A Jupyter Notebook used to train machine learning models with default parameters.
@@ -152,13 +152,13 @@ We evaluate the models using metrics such as:
 
 ## Authors
 
-- Your Name - [Your GitHub Profile](https://github.com/yourusername)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Rahul Bhutekar - [Your GitHub Profile](https://github.com/rahul-bhutekar)
 
 ## Acknowledgments
 
 - Dataset provided by UCI Machine Learning Repository.
 - Special thanks to the authors of the dataset and to the contributors of the Python libraries used in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
